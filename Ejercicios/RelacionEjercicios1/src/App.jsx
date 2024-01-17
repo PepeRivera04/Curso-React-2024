@@ -1,24 +1,24 @@
 import "./App.css";
+import ConditionalRenderAdvanced from "./components/ConditionalRenderAdvanced";
+// import ConditionalRender from "./components/ConditionalRender";
+// import ToggleVisibility from "./components/ToggleVisibility";
+// import UserList from "./components/UserList";
 // import EstilosEnJSX from "./components/EstilosEnJSX";
-import UsoAvanzadoDeProps from "./components/UsoAvanzadoDeProps";
+// import UsoAvanzadoDeProps from "./components/UsoAvanzadoDeProps";
 // import UsoDeComponentes from "./components/UsoDeComponentes";
 // import UsoDeEventos from "./components/UsoDeEventos";
 // import Bienvenido from "./components/Bienvenido
 // import UsoDeListas from "./components/UsoDeListas";
 
 function App() {
-  function onClick() {
-    console.log("Se ha clicado el botón");
-  }
+  const userList = ["Juan", "Pedro"];
 
   return (
     <>
-      <UsoAvanzadoDeProps
-        text="Clícame"
-        backgroundColor="blue"
-        color="white"
-        onClick={onClick}
-      />
+      <ConditionalRenderAdvanced
+        isLoggedIn={true}
+        userRole="normal"
+      ></ConditionalRenderAdvanced>
     </>
   );
 }
