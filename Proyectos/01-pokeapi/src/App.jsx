@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import "./App.css";
 import { useState } from "react";
+import Card from "./components/Card";
+import Nav from "./components/Nav";
 
 const URL = "https://pokeapi.co/api/v2/pokemon?limit=100";
 
@@ -35,26 +37,35 @@ function App() {
                 ) / pokemonDetails.stats.length,
               //  0-33 --> 1 , 33- 66 --> 2, 66 --> ... ; oro,plata,bronce
             };
-
             return datos;
           })
         );
 
         // setear pokemonData en un estado que gaurde los pokemon
         // setLoading
+        setPokemons(pokemonData);
       } catch (e) {
         console.error(e);
       }
     };
 
-    // Ejecuto la función y la guardo en
-    setPokemons(fetchData());
-    // console.log(fetchData());
+    // Ejecuto la función
+    fetchData();
   }, []);
 
   return (
     <>
-      <h1>{JSON.stringify(pokemons)}</h1>
+      <Nav></Nav>
+      <div className="gap-[2rem] grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] p-10">
+        {pokemons.map((pokemon) => (
+          <Card
+            key={pokemon.id}
+            imgPokemon={pokemon.img}
+            name={pokemon.name}
+            stats={pokemon.stats}
+          ></Card>
+        ))}
+      </div>
     </>
   );
 }
