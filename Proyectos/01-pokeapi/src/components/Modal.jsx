@@ -9,7 +9,13 @@ const Modal = ({ imgPokemon, name, stats, isOpen, closeModal }) => {
       } transition-opacity ease-in-out duration-500 `}
     >
       <div
-        className={`flex flex-col justify-between items-center border border-blue-200 p-6 rounded-xl bg-blue-300 text-black font-bold font-bold`}
+        className={`flex flex-col justify-between items-center border border-blue-200 p-6 rounded-xl ${
+          stats > 33 && stats <= 66
+            ? "bg-yellow-200"
+            : stats > 66 && stats <= 99
+            ? "bg-red-400"
+            : "bg-green-200"
+        } text-black font-bold font-bold`}
       >
         <div className="max-h-[150px] mb-5">
           <img className="max-h-[150px]" src={imgPokemon} alt="" />

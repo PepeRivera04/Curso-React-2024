@@ -7,7 +7,7 @@ import Buscador from "./components/Buscador";
 import Footer from "./components/Footer";
 import Modal from "./components/Modal";
 
-const URL = "https://pokeapi.co/api/v2/pokemon?limit=100";
+const URL = import.meta.env.VITE_URL_POKEAPI;
 
 function App() {
   const [pokemons, setPokemons] = useState([]);
@@ -40,7 +40,7 @@ function App() {
         const results = data.results;
 
         const pokemonData = await Promise.all(
-          results.map(async (pokemon, index) => {
+          results.map(async (pokemon) => {
             const resp = await fetch(pokemon.url);
             const pokemonDetails = await resp.json();
             const datos = {
