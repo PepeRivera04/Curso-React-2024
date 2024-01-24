@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchPost } from "../helpers/fetchPost";
+import { fetchPost } from "../services/fetchPost";
 
 const URL = import.meta.env.VITE_URL_POSTS;
 
@@ -17,13 +17,13 @@ const Home = () => {
         <h1 className="text-2xl font-bold mb-4">Lista de posts</h1>
         <ul className="list-disc pl-4">
           {posts.length > 0 ? (
-            posts.map((el, i) => (
-              <li className="mb-2" key={i + 1}>
+            posts.map((el) => (
+              <li className="mb-2" key={el.id}>
                 <Link
-                  to={`/post/${i + 1}`}
+                  to={`/post/${el.id}`}
                   className="text-blue-500 hover:underline"
                 >
-                  Enlace a post {i + 1}
+                  Enlace a post {el.id}
                 </Link>
               </li>
             ))
