@@ -8,15 +8,19 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <RootLayout></RootLayout>
-      children : [
-        {path:"/", element:<Home></Home>} ,
-        {path:"/:postId", element:<Post></Post>}
-      ]
+      element: <RootLayout></RootLayout>,
+      children: [
+        { path: "/", element: <Home></Home> },
+        { path: "/post/:postId", element: <Post></Post> },
+      ],
     },
   ]);
 
-  return <></>;
+  return (
+    <>
+      <RouterProvider router={router}></RouterProvider>
+    </>
+  );
 }
 
 export default App;
