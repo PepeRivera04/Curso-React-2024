@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useDataApi from "../hooks/useDataApi";
+import MovieCard from "./MovieCard";
 
 const apiKey = import.meta.env.VITE_API_TOKEN;
 
@@ -63,11 +64,12 @@ const MovieSearchForm = () => {
         )}
       </form>
 
-      <div className="gap-[2rem] grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] p-10">
+      <div className="w-full gap-[2rem] grid grid-cols-[repeat(auto-fill,minmax(350px,1fr))] p-10">
         {loading && <h1>Spinner</h1>}
         {error && <h1>Esto es un error</h1>}
-        {/* Ahora recorrer el filtrado de peliculas y renderizar los componentes MovieCard */}
-        {<p>Aqui</p>}
+        {filteredMovie.map((movie) => (
+          <MovieCard key={movie.id} pelicula={movie}></MovieCard>
+        ))}
       </div>
     </div>
   );
