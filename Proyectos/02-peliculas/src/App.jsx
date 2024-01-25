@@ -1,24 +1,27 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import "./App.css";
-import Productos from "./router-dom/Productos";
-import RootLayout from "./router-dom/RootLayout";
-import HomePage from "./router-dom/HomePage";
-import ErrorPage from "./router-dom/ErrorPage";
-import ProductosDetails from "./router-dom/ProductosDetails";
+import RootMovieLayout from "./pages/RootMovieLayout";
+import ErrorMoviePage from "./pages/ErrorMoviePage";
+import MovieDetailsPage from "./pages/MovieDetailsPage";
+import Home from "./pages/Home";
+import AcercaDe from "./pages/AcercaDe";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <RootLayout />,
-      errorElement: <ErrorPage />,
+      element: <RootMovieLayout />,
+      // loader:() => {
+      // Esto se ejecuta instantes antes de empezar a renderizar, y acepta asincronía.
+      // },
+      errorElement: <ErrorMoviePage />,
       children: [
-        { path: "/", element: <HomePage /> },
-        { path: "/productos", element: <Productos /> },
-        { path: "/productos/:productId", element: <ProductosDetails /> },
+        { index: true, element: <Home /> },
+        { path: "peliculas/:movieId", element: <MovieDetailsPage /> },
       ],
     },
+    { path: "/acerca-de", element: <AcercaDe></AcercaDe> },
   ]);
 
   return <RouterProvider router={router} />;

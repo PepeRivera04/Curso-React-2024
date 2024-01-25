@@ -10,7 +10,7 @@ function App() {
       path: "/",
       element: <RootLayout></RootLayout>,
       children: [
-        { path: "/", element: <Home></Home> },
+        { index: true, element: <Home></Home> },
         { path: "/post/:postId", element: <Post></Post> },
       ],
     },
