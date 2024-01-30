@@ -20,8 +20,6 @@ const About = () => {
         <a
           href="https://github.com/tuusuario"
           className="text-blue-500 hover:underline ml-1"
-          target="_blank"
-          rel="noopener noreferrer"
         >
           PepeRivera04
         </a>

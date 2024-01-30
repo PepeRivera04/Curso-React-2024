@@ -14,6 +14,9 @@ const MovieCard = ({ pelicula }) => {
         <div className="flex flex-1 flex-col justify-center items-center text-center p-4">
           <h1 className="font-bold text-xl">{pelicula.title}</h1>
           <h3>{pelicula.release_date}</h3>
+          <h3>
+            Valoración : <strong>{Math.ceil(pelicula.vote_average)}</strong>
+          </h3>
         </div>
       </div>
     </>

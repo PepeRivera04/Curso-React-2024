@@ -7,7 +7,6 @@ const RouteMovieLayout = () => {
     <>
       <Header></Header>
       <main>
-        {/* Aqui van los hijos */}
         <Outlet></Outlet>
       </main>
       <Footer></Footer>
