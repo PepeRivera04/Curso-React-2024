@@ -19,16 +19,34 @@ const ToDoProvider = ({ children }) => {
 
   function agregarTarea() {
     const newTarea = "";
-    setTareas([...tareas], newTarea);
+    return setTareas([...tareas], newTarea);
   }
 
   function eliminarTarea(id) {
     return setTareas(tareas.filter((el) => el.id !== id));
   }
 
-  function completarId(id) {}
+  function completar(id) {
+    const updatedTareas = tareas.map((tarea) => {
+      if (tarea.id === id) {
+        // tarea.completed = !tarea.completed;
+        return {
+          ...tareas,
+          completed: !tarea.completed,
+        };
+      }
+    });
+    return setTareas(updatedTareas);
+  }
 
-  // De una tarea quiero : a) Crear una tarea , b) Eliminar una tarea, c) Completar una tarea, d) Contar tareas
+  function contarTareas() {
+    const filteredNonCompleted = tareas.filter(
+      (tarea) => tarea.completed === false
+    );
+    return filteredNonCompleted.length;
+  }
+
+  // De una tarea quiero : a) Crear una tarea , b) Eliminar una tarea, c) Completar una tarea, d) Contar tareas incompletas
   return (
     <ToDoContext.Provider value={(tareas, setTareas)}>
       {children}
