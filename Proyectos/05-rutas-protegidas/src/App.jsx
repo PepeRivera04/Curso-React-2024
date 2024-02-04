@@ -19,7 +19,7 @@ function App() {
         {
           element: (
             <ProtectedRoute
-              isActive={false}
+              isActive={true}
               redirectPath="/login"
             ></ProtectedRoute>
           ),
