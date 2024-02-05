@@ -12,7 +12,6 @@ const URL2 = "https://jsonplaceholder.org/users";
 
 const ContextProvider = ({ children }) => {
   const [preciosLuz, setPreciosLuz] = useState([]);
-  const [isLogged, setIsLogged] = useState(false);
   const [user, setUser] = useState({});
   const [allUsers, setAllUsers] = useState([]);
 
@@ -44,8 +43,6 @@ const ContextProvider = ({ children }) => {
       value={{
         preciosLuz,
         setPreciosLuz,
-        isLogged,
-        setIsLogged,
         user,
         setUser,
         allUsers,

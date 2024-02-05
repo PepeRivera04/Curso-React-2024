@@ -7,11 +7,12 @@ import {
 import RootLayout from "./pages/RootLayout";
 import PrecioLuz from "./pages/PrecioLuz";
 import ProtectedRoute from "./utils/ProtectedRoute";
-import ContextProvider from "./context/ContextProvider";
-import Home from "./pages/Home";
 import Login from "./pages/Login";
+import { useState } from "react";
 
 function App() {
+  const [isLogged, setIsLogged] = useState(false);
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -20,7 +21,7 @@ function App() {
         {
           element: (
             <ProtectedRoute
-              isLogged={false}
+              isLogged={isLogged}
               redirectPath="/login"
             ></ProtectedRoute>
           ),
@@ -37,17 +38,15 @@ function App() {
         },
         {
           path: "/login",
-          element: <Login></Login>,
+          element: (
+            <Login setIsLogged={setIsLogged} isLogged={isLogged}></Login>
+          ),
         },
       ],
     },
   ]);
 
-  return (
-    <ContextProvider>
-      <RouterProvider router={router} />
-    </ContextProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
