@@ -8,10 +8,11 @@ import RootLayout from "./pages/RootLayout";
 import PrecioLuz from "./pages/PrecioLuz";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Login from "./pages/Login";
-import { useState } from "react";
+import { useContext } from "react";
+import Context from "./context/Context";
 
 function App() {
-  const [isLogged, setIsLogged] = useState(false);
+  const { isLogged, setIsLogged } = useContext(Context);
 
   const router = createBrowserRouter([
     {

@@ -1,35 +1,31 @@
 import React, { useContext, useEffect, useState } from "react";
 import Context from "../context/Context";
+import { Navigate, useNavigate } from "react-router-dom";
 
-const Login = ({ isLogged, setIsLogged }) => {
-  const { allUsers } = useContext(Context);
+const Login = () => {
+  const { allUsers, setIsLogged, setUser } = useContext(Context);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  useEffect(() => {
-    console.log("isLogged en Login después de setIsLogged:", isLogged);
-  }, [isLogged]);
+  const navigate = useNavigate();
 
-  function checkLogin(username, password) {
+  function checkLogin(username, password, e) {
+    e.preventDefault();
     allUsers.forEach((user) => {
-      if (user.login.username === username) {
-        console.log("Nombre bien");
-        if (user.login.password === password) {
-          console.log("password bien");
-          setIsLogged(true);
-          console.log("isLogged después de setIsLogged(true):", isLogged);
-          alert("Login correcto!");
-        }
+      if (
+        user.login.username === username &&
+        user.login.password === password
+      ) {
+        setUser(user);
+        setIsLogged(true);
+        navigate("/precioluz");
       }
     });
   }
 
   return (
-    <form
-      className="flex flex-col justify-center items-center bg-gray-200 "
-      action=""
-    >
+    <form className="flex flex-col justify-center items-center bg-gray-200 ">
       <label htmlFor="">Userame :</label>
       <br />
       <input
@@ -51,7 +47,7 @@ const Login = ({ isLogged, setIsLogged }) => {
       />
       <br />
       <button
-        onClick={() => checkLogin(username, password)}
+        onClick={(e) => checkLogin(username, password, e)}
         className="bg-gray-400 p-2 rounded-md"
       >
         Login

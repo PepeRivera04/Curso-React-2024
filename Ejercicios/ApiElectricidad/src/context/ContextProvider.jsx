@@ -14,6 +14,7 @@ const ContextProvider = ({ children }) => {
   const [preciosLuz, setPreciosLuz] = useState([]);
   const [user, setUser] = useState({});
   const [allUsers, setAllUsers] = useState([]);
+  const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
     async function fetchApi() {
@@ -47,6 +48,8 @@ const ContextProvider = ({ children }) => {
         setUser,
         allUsers,
         setAllUsers,
+        isLogged,
+        setIsLogged,
       }}
     >
       {children}
