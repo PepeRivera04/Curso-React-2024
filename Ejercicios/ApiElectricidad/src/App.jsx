@@ -12,7 +12,7 @@ import { useContext } from "react";
 import Context from "./context/Context";
 
 function App() {
-  const { isLogged, setIsLogged } = useContext(Context);
+  const { isLogged } = useContext(Context);
 
   const router = createBrowserRouter([
     {
@@ -28,7 +28,7 @@ function App() {
           ),
           children: [
             {
-              path: "/",
+              index: true,
               element: <Navigate to="/precioluz" replace></Navigate>,
             },
             {
@@ -39,9 +39,7 @@ function App() {
         },
         {
           path: "/login",
-          element: (
-            <Login setIsLogged={setIsLogged} isLogged={isLogged}></Login>
-          ),
+          element: <Login></Login>,
         },
       ],
     },

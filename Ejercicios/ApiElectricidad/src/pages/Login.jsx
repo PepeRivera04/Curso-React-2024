@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Context from "../context/Context";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { allUsers, setIsLogged, setUser } = useContext(Context);
@@ -10,8 +10,7 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  function checkLogin(username, password, e) {
-    e.preventDefault();
+  function checkLogin(username, password) {
     allUsers.forEach((user) => {
       if (
         user.login.username === username &&
@@ -47,7 +46,7 @@ const Login = () => {
       />
       <br />
       <button
-        onClick={(e) => checkLogin(username, password, e)}
+        onClick={() => checkLogin(username, password)}
         className="bg-gray-400 p-2 rounded-md"
       >
         Login
