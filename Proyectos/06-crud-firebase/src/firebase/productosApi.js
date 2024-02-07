@@ -1,4 +1,10 @@
-import { addDoc, collection, getDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+} from "firebase/firestore";
 import { db } from "./firebase";
 
 //  -------------- Datos de la colección ---------------------------
@@ -20,10 +26,23 @@ export const addProducto = async (productoData) => {
 
 export const getProductos = async () => {
   try {
-    const data = await getDoc(productosCollection);
+    const data = await getDocs(productosCollection);
     return data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
   } catch (err) {
     console.error("Error al obtener los productos : " + err);
+    throw err;
+  }
+};
+
+// ---------------------- Eliminar productos ------------------------
+
+export const deleteProducto = async (id) => {
+  try {
+    const productoDocRef = doc(productosCollection, id);
+    await deleteDoc(productoDocRef);
+    console.log("Producto eliminado correctamente");
+  } catch (err) {
+    console.error(err);
     throw err;
   }
 };
