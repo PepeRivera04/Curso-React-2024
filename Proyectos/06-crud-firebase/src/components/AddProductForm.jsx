@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { addProducto } from "../firebase/productosApi";
 import Swal from "sweetalert2";
 
-const AddProductForm = () => {
+const AddProductForm = ({ actualizarProductos }) => {
   const [nombre, setNombre] = useState("");
   const [stock, setStock] = useState(0);
   const [descripcion, setDescripcion] = useState("");
@@ -19,18 +19,19 @@ const AddProductForm = () => {
         url,
       });
       console.log("Producto añadido con id : " + newProduct);
-      //   VEntana indicando si todo ok
+      //   Ventana indicando si todo ok
       Swal.fire({
         icon: "success",
         title: "¡Insercion correcta!",
         text: "Datos del producto insertados correctamente",
       });
 
-      //   Seteamos todo a sus valores iniciales
+      // Seteamos todo a sus valores iniciales
       setNombre("");
       setStock(0);
       setDescripcion("");
       setUrl("");
+      actualizarProductos();
     } catch (err) {
       console.error("Error al añadir un producto : " + err);
       throw err;

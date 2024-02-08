@@ -1,4 +1,11 @@
 import {
+  GoogleAuthProvider,
+  browserSessionPersistence,
+  getAuth,
+  setPersistence,
+  signInWithPopup,
+} from "firebase/auth";
+import {
   addDoc,
   collection,
   deleteDoc,
@@ -6,6 +13,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { db } from "./firebase";
+import Swal from "sweetalert2";
 
 //  -------------- Datos de la colección ---------------------------
 const productosCollection = collection(db, "Crud-react-product");
@@ -43,6 +51,26 @@ export const deleteProducto = async (id) => {
     console.log("Producto eliminado correctamente");
   } catch (err) {
     console.error(err);
-    throw err;
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Error al intentar eliminar el producto",
+    });
+  }
+};
+
+export const signWithGoogle = async (signIn, setError, navigate) => {
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
+  try {
+    await setPersistence(auth, browserSessionPersistence);
+    const result = await signInWithPopup(auth, provider);
+    // result trae TODA LA INFORMACIÓN de la cuenta seleccionada
+    const user = result.user;
+    // Aqui mando el usuario al contexto global
+    signIn(user);
+    navigate("/");
+  } catch (error) {
+    setError(error);
   }
 };

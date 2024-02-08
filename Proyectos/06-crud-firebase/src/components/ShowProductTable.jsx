@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
 import { deleteProducto, getProductos } from "../firebase/productosApi";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
-const ShowProductTable = () => {
+const ShowProductTable = ({ actualizarProductos }) => {
   const [loading, setLoading] = useState(false);
   const [productos, setProductos] = useState([]);
 
@@ -19,8 +21,19 @@ const ShowProductTable = () => {
 
   const handleDeleteProduct = async (id) => {
     try {
-      await deleteProducto(id);
-      fetchDataProducts();
+      const response = await Swal.fire({
+        icon: "warning",
+        title: "¿Estas seguro?",
+        text: "Esta accion no se puede revertir",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, eliminarlo",
+      });
+      if (response.isConfirmed) {
+        await deleteProducto(id);
+        actualizarProductos();
+      }
     } catch (error) {
       console.error("Error al eliminar producto: ", error);
     }
@@ -28,7 +41,7 @@ const ShowProductTable = () => {
 
   useEffect(() => {
     fetchDataProducts();
-  }, []);
+  }, [actualizarProductos]);
 
   return (
     <div className="w-3/4 mx-auto mt-8">
@@ -53,7 +66,7 @@ const ShowProductTable = () => {
                   Descripción
                 </th>
                 <th className="py-2 px-4 border border-b border-gray-300">
-                  URL
+                  Imagen
                 </th>
                 <th className="py-2 px-4 border border-b border-gray-300">
                   Acciones
@@ -75,21 +88,19 @@ const ShowProductTable = () => {
                   <td className="py-2 px-4 border border-b border-gray-300">
                     {producto.Descripcion}
                   </td>
-                  <td
-                    className="py-2 px-4 border border-b border-gray-300"
-                    style={{
-                      maxWidth: "200px",
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
-                    {producto.url}
+                  <td className="py-2 px-4 border border-b border-gray-300">
+                    <img
+                      className="w-24"
+                      src={producto.url}
+                      alt="imgProducto"
+                    />
                   </td>
                   <td className="py-2 px-4 border border-b border-gray-300 ">
-                    <button className="p-2 bg-green-200 rounded-md mx-2">
-                      Editar
-                    </button>
+                    <Link to={`/productos/${producto.id}`}>
+                      <button className="p-2 bg-green-200 rounded-md mx-2">
+                        Editar
+                      </button>
+                    </Link>
                     <button
                       onClick={() => handleDeleteProduct(producto.id)}
                       className="p-2 bg-red-200 rounded-md mt-2"
