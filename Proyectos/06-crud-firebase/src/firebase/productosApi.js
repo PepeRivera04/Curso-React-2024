@@ -4,13 +4,16 @@ import {
   getAuth,
   setPersistence,
   signInWithPopup,
+  signOut,
 } from "firebase/auth";
 import {
   addDoc,
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "./firebase";
 import Swal from "sweetalert2";
@@ -42,6 +45,25 @@ export const getProductos = async () => {
   }
 };
 
+// ---------------------- Cargar datos de un producto con id 'x' ------------------------
+
+export const getProductById = async (productoId) => {
+  try {
+    const productDocRef = doc(productosCollection, productoId);
+    const productDoc = await getDoc(productDocRef);
+
+    if (productDoc.exists) {
+      return {
+        ...productDoc.data(),
+        id: productDoc.id,
+      };
+    }
+  } catch (err) {
+    console.error("Error al obtener el producto : " + err);
+    throw err;
+  }
+};
+
 // ---------------------- Eliminar productos ------------------------
 
 export const deleteProducto = async (id) => {
@@ -59,6 +81,18 @@ export const deleteProducto = async (id) => {
   }
 };
 
+// ---------------------- Edit productos ------------------------
+
+export const editProduct = async (idProducto, newData) => {
+  try {
+    const productDocRef = doc(productosCollection, idProducto);
+    await updateDoc(productDocRef, newData);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// Iniciar sesión con Google
 export const signWithGoogle = async (signIn, setError, navigate) => {
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
@@ -72,5 +106,16 @@ export const signWithGoogle = async (signIn, setError, navigate) => {
     navigate("/");
   } catch (error) {
     setError(error);
+  }
+};
+
+// Cerrar sesión con Google
+export const signOutGoogle = async () => {
+  const auth = getAuth();
+  try {
+    await signOut(auth);
+    return true;
+  } catch (error) {
+    console.error(error);
   }
 };

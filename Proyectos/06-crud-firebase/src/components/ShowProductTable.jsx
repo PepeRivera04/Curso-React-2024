@@ -1,17 +1,24 @@
 import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
 import { deleteProducto, getProductos } from "../firebase/productosApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const ShowProductTable = ({ actualizarProductos }) => {
   const [loading, setLoading] = useState(false);
   const [productos, setProductos] = useState([]);
+  const [stockTotal, setStockTotal] = useState(0);
+  const [orden, setOrden] = useState("asc");
+
+  const navigate = useNavigate();
 
   const fetchDataProducts = async () => {
     try {
       const productosDatos = await getProductos();
       setProductos(productosDatos);
+      setStockTotal(
+        productosDatos.reduce((cont, prod) => (cont += parseInt(prod.Stock)), 0)
+      );
     } catch (err) {
       console.error("Error fetching productos : " + err);
     } finally {
@@ -39,6 +46,20 @@ const ShowProductTable = ({ actualizarProductos }) => {
     }
   };
 
+  const handlerClickPayment = () => {
+    navigate("/payment", { state: { stockTotal } });
+  };
+
+  const handlerSortStock = () => {
+    if (orden === "asc") {
+      setProductos([...productos.sort((a, b) => a.Stock - b.Stock)]);
+      setOrden("desc");
+    } else {
+      setProductos([...productos.sort((a, b) => b.Stock - a.Stock)]);
+      setOrden("asc");
+    }
+  };
+
   useEffect(() => {
     fetchDataProducts();
   }, [actualizarProductos]);
@@ -60,7 +81,7 @@ const ShowProductTable = ({ actualizarProductos }) => {
                   Nombre Producto
                 </th>
                 <th className="py-2 px-4 border border-b border-gray-300">
-                  Stock
+                  <button onClick={handlerSortStock}>Stock</button>
                 </th>
                 <th className="py-2 px-4 border border-b border-gray-300">
                   Descripción
@@ -112,6 +133,16 @@ const ShowProductTable = ({ actualizarProductos }) => {
               ))}
             </tbody>
           </table>
+          <div className="bg-gray-400 p-4 mt-4 borde-t flex justify-between items-center">
+            <span className="text-lg font-semibold">Total Stock</span>
+            <span className="text-lg">{stockTotal}</span>
+            <button
+              onClick={handlerClickPayment}
+              className="bg-blue-500 hover:bg-blue-800 text-white font-bold py-1 px-3 rounded"
+            >
+              Pagar
+            </button>
+          </div>
         </>
       )}
     </div>

@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signWithGoogle } from "../firebase/productosApi";
-import { AuthContextProduct } from "../context/authContextProduct";
+import { useAuthProduct } from "../context/authContextProduct";
 
 const LoginPage = () => {
   const [error, setError] = useState();
   const navigate = useNavigate();
 
-  const { signInFirebase } = AuthContextProduct;
+  const { signInFirebase } = useAuthProduct();
 
   const handlerSignIn = async () => {
-    await signWithGoogle("signInFirebase", setError, navigate);
+    await signWithGoogle(signInFirebase, setError, navigate);
   };
 
   return (
@@ -41,7 +41,7 @@ const LoginPage = () => {
             onClick={handlerSignIn}
             className="relative w-full flex justify-center rounded-md py-2 px-4 border text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
-            Iniciar seison con Google
+            Iniciar sesion con Google
           </button>
         </div>
       </div>

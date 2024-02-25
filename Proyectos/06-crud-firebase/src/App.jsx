@@ -6,6 +6,7 @@ import EditProductPage from "./pages/EditProductPage";
 import PaymentPage from "./pages/PaymentPage";
 import ErrorPage from "./pages/ErrorPage";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import { AuthProvider } from "./context/authContextProduct";
 
 function App() {
   const router = createBrowserRouter([
@@ -15,12 +16,7 @@ function App() {
       errorElement: <ErrorPage></ErrorPage>,
       children: [
         {
-          element: (
-            <ProtectedRoute
-              isActive={true}
-              redirectPath="/login"
-            ></ProtectedRoute>
-          ),
+          element: <ProtectedRoute redirectPath="/login"></ProtectedRoute>,
           children: [
             { index: true, element: <HomePage></HomePage> },
             {
@@ -38,7 +34,11 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={router}></RouterProvider>;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router}></RouterProvider>
+    </AuthProvider>
+  );
 }
 
 export default App;
