@@ -1,8 +1,12 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useAuthProduct } from "../context/authContextProduct";
+import { addFactura } from "../firebase/productosApi";
 
 const PaymentPage = () => {
+  const { userFirebase } = useAuthProduct();
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -11,11 +15,18 @@ const PaymentPage = () => {
   const precioBase = 3.75;
   const totalPagar = stockTotal * IVA * precioBase;
 
+  const factura = {
+    cliente: userFirebase.displayName,
+    stockTotal,
+    totalPagar: totalPagar.toFixed(2),
+  };
+
   const handlerGoBack = () => {
     navigate(-1);
   };
 
-  const handlerClickPay = () => {
+  const handlerClickPay = async () => {
+    const newFactura = await addFactura(factura);
     Swal.fire({
       icon: "success",
       title: "Pago Correcto!",

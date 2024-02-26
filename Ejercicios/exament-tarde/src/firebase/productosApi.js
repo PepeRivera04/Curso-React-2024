@@ -1,12 +1,4 @@
 import {
-  GoogleAuthProvider,
-  browserSessionPersistence,
-  getAuth,
-  setPersistence,
-  signInWithPopup,
-  signOut,
-} from "firebase/auth";
-import {
   addDoc,
   collection,
   deleteDoc,
@@ -19,26 +11,13 @@ import { db } from "./firebase";
 import Swal from "sweetalert2";
 
 //  -------------- Datos de la colección ---------------------------
-const productosCollection = collection(db, "Crud-react-product");
-const facturasCollection = collection(db, "facturas-products");
+const examenCollection = collection(db, "Examen-React2-JARB");
 
 // ---------------------- Añadir productos ------------------------
 
 export const addProducto = async (productoData) => {
   try {
-    const docRef = await addDoc(productosCollection, productoData);
-    return docRef.id;
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
-};
-
-// ---------------------- Añadir factura ------------------------
-
-export const addFactura = async (facturaData) => {
-  try {
-    const docRef = await addDoc(facturasCollection, facturaData);
+    const docRef = await addDoc(examenCollection, productoData);
     return docRef.id;
   } catch (err) {
     console.error(err);
@@ -50,7 +29,7 @@ export const addFactura = async (facturaData) => {
 
 export const getProductos = async () => {
   try {
-    const data = await getDocs(productosCollection);
+    const data = await getDocs(examenCollection);
     return data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
   } catch (err) {
     console.error("Error al obtener los productos : " + err);
@@ -62,7 +41,7 @@ export const getProductos = async () => {
 
 export const getProductById = async (productoId) => {
   try {
-    const productDocRef = doc(productosCollection, productoId);
+    const productDocRef = doc(examenCollection, productoId);
     const productDoc = await getDoc(productDocRef);
 
     if (productDoc.exists) {
@@ -81,7 +60,7 @@ export const getProductById = async (productoId) => {
 
 export const deleteProducto = async (id) => {
   try {
-    const productoDocRef = doc(productosCollection, id);
+    const productoDocRef = doc(examenCollection, id);
     await deleteDoc(productoDocRef);
     console.log("Producto eliminado correctamente");
   } catch (err) {
@@ -98,37 +77,10 @@ export const deleteProducto = async (id) => {
 
 export const editProduct = async (idProducto, newData) => {
   try {
-    const productDocRef = doc(productosCollection, idProducto);
+    const productDocRef = doc(examenCollection, idProducto);
     await updateDoc(productDocRef, newData);
   } catch (error) {
-    console.error(error);
-  }
-};
-
-// -------------------------------- Iniciar sesión con Google ------------------------------------
-export const signWithGoogle = async (signIn, setError, navigate) => {
-  const auth = getAuth();
-  const provider = new GoogleAuthProvider();
-  try {
-    await setPersistence(auth, browserSessionPersistence);
-    const result = await signInWithPopup(auth, provider);
-    // result trae TODA LA INFORMACIÓN de la cuenta seleccionada
-    const user = result.user;
-    // Aqui mando el usuario al contexto global
-    signIn(user);
-    navigate("/");
-  } catch (error) {
-    setError(error);
-  }
-};
-
-// Cerrar sesión con Google
-export const signOutGoogle = async () => {
-  const auth = getAuth();
-  try {
-    await signOut(auth);
-    return true;
-  } catch (error) {
+    console.log(idProducto, newData);
     console.error(error);
   }
 };

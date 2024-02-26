@@ -19,26 +19,13 @@ import { db } from "./firebase";
 import Swal from "sweetalert2";
 
 //  -------------- Datos de la colección ---------------------------
-const productosCollection = collection(db, "Crud-react-product");
-const facturasCollection = collection(db, "facturas-products");
+const productosCollection = collection(db, "practica-firebase");
 
 // ---------------------- Añadir productos ------------------------
 
 export const addProducto = async (productoData) => {
   try {
     const docRef = await addDoc(productosCollection, productoData);
-    return docRef.id;
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
-};
-
-// ---------------------- Añadir factura ------------------------
-
-export const addFactura = async (facturaData) => {
-  try {
-    const docRef = await addDoc(facturasCollection, facturaData);
     return docRef.id;
   } catch (err) {
     console.error(err);
@@ -105,7 +92,7 @@ export const editProduct = async (idProducto, newData) => {
   }
 };
 
-// -------------------------------- Iniciar sesión con Google ------------------------------------
+// Iniciar sesión con Google
 export const signWithGoogle = async (signIn, setError, navigate) => {
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
